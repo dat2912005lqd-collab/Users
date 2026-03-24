@@ -1,4 +1,4 @@
-package com.booking.users.respository;
+package com.booking.users.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.booking.users.entity.User;
 

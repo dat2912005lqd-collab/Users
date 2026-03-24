@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import com.booking.users.dto.RegisterUserRequest;
 import com.booking.users.dto.UserResponseDTO;
 import com.booking.users.entity.User;
-import com.booking.users.respository.UserRepository;
+import com.booking.users.repository.UserRepository;
 @Service
 public class UserService {
     @Autowired
