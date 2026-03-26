@@ -24,7 +24,7 @@ public class UserController {
     public ResponseEntity<UserResponseDTO> registerUser(@RequestBody RegisterUserRequest request) {
         return ResponseEntity.ok(userService.registerUser(request));
     }
-    @GetMapping()
+    @GetMapping("/")
     public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
