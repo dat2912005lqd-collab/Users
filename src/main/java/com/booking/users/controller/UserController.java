@@ -27,6 +27,7 @@ public class UserController {
     public ResponseEntity<UserResponseDTO> registerUser(@RequestBody RegisterUserRequest request) {
         return ResponseEntity.ok(userService.registerUser(request));
     }
+<<<<<<< HEAD
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request){
         User user=userService .login(request.getEmail(), request.getPassword());
@@ -34,6 +35,9 @@ public class UserController {
         return ResponseEntity.ok(token);
     }
     @GetMapping()
+=======
+    @GetMapping("/all")
+>>>>>>> 32d8831aa8a55afb4aa4a61b1bc05a56d05b875a
     public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
