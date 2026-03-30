@@ -1,28 +1,32 @@
 package com.booking.users.entity;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+
 @Entity
-@Table(name="bookings")
+@Table(name = "bookings")
 public class Booking {
-public Booking() {}
-public Booking(String phone, String customerName, String service, LocalDateTime bookingTime) {
-    this.phone = phone;
-    this.customerName = customerName;
-    this.Service = service;
-    this.bookingTime = bookingTime;
-}
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-private Long id;
-private String phone;
-private String customerName;
-private String Service;
-private String status;
-private LocalDateTime bookingTime;
+    public Booking() {}
+
+    public Booking(String phone, String customerName, String service, LocalDateTime bookingTime) {
+        this.phone = phone;
+        this.customerName = customerName;
+        this.Service = service;
+        this.bookingTime = bookingTime;
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String phone;
+    private String customerName;
+    private String Service;
+    private String status;
+    private LocalDateTime bookingTime;
 public Long getId() {
     return id;
 }
