@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestHeader;
-
 import com.booking.users.dto.LoginRequest;
 import com.booking.users.dto.RegisterUserRequest;
 import com.booking.users.dto.UserResponseDTO;
@@ -27,30 +26,29 @@ public class UserController {
     public ResponseEntity<UserResponseDTO> registerUser(@RequestBody RegisterUserRequest request) {
         return ResponseEntity.ok(userService.registerUser(request));
     }
-<<<<<<< HEAD
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request){
-        User user=userService .login(request.getEmail(), request.getPassword());
-        String token=JWtUtil.generateToken(user.getEmail());
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        User user = userService.login(request.getPhoneNumber(), request.getPassword());
+        String token = JWtUtil.generateToken(user.getPhoneNumber());
         return ResponseEntity.ok(token);
     }
-    @GetMapping()
-=======
+
     @GetMapping("/all")
->>>>>>> 32d8831aa8a55afb4aa4a61b1bc05a56d05b875a
     public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable("id")Long id) {
+    public ResponseEntity<String> deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
         return ResponseEntity.ok("OK");
     }
+
     @GetMapping("/me")
-    public User getMe(@RequestHeader("Authorization") String authHeader) {
+    public ResponseEntity<User> getMe(@RequestHeader("Authorization") String authHeader) {
         String token = authHeader.replace("Bearer ", "");
-        String phone= JWtUtil.getPhoneFromToken(token);
-        return userService.findByEmail(phone);
+        String phone = JWtUtil.getPhoneFromToken(token);
+        return ResponseEntity.ok(userService.findByEmail(phone));
     }
 }
 
