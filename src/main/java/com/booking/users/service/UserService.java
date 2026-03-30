@@ -6,6 +6,7 @@ import com.booking.users.dto.RegisterUserRequest;
 import com.booking.users.dto.UserResponseDTO;
 import com.booking.users.entity.User;
 import com.booking.users.repository.UserRepository;
+import com.booking.users.util.MD5Util;
 @Service
 public class UserService {
     @Autowired
@@ -25,5 +26,24 @@ public class UserService {
     }
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+    public User register(User user){
+        String encryptedPassword = MD5Util.encrypt(user.getPassword());
+        user.setPassword(encryptedPassword);
+        return userRepository.save(user);
+    }
+    public User login(String phoneNumber, String password){
+       User user = userRepository.findByPhoneNumber(phoneNumber);
+       if (user == null) {
+            throw new RuntimeException("User not found");
+       }
+       String encryptedPassword = MD5Util.encrypt(password);
+       if (!user.getPassword().equals(encryptedPassword)) {
+            throw new RuntimeException("Invalid password");
+       }
+       return user;
+    }
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }
