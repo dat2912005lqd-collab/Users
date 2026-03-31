@@ -1,5 +1,4 @@
 package com.booking.users.service;
-import java.util.Optional;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -19,6 +18,9 @@ public class BookingService {
         return bookingRespository.findAll();
     }
     public Booking getById(Long id) {
+        if (id == null) {
+            return null;
+        }
         return bookingRespository.findById(id).orElse(null);
     }
     public Booking update(Long id, Booking updatedBooking) {

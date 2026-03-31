@@ -25,7 +25,9 @@ public class UserService {
         return response;
     }
     public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+        if (id != null) {
+            userRepository.deleteById(id);
+        }
     }
     public User register(User user){
         String encryptedPassword = MD5Util.encrypt(user.getPassword());

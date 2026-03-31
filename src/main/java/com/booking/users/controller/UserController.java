@@ -15,7 +15,7 @@ import com.booking.users.dto.RegisterUserRequest;
 import com.booking.users.dto.UserResponseDTO;
 import com.booking.users.entity.User;
 import com.booking.users.service.UserService;
-import com.booking.users.util.JWtUtil;
+import com.booking.users.util.JwtUtil;
 
 @RestController
 @RequestMapping("/users")
@@ -29,25 +29,22 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         User user = userService.login(request.getPhoneNumber(), request.getPassword());
-        String token = JWtUtil.generateToken(user.getPhoneNumber());
+        String token = JwtUtil.generateToken(user.getPhoneNumber());
         return ResponseEntity.ok(token);
     }
-
     @GetMapping("/all")
     public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
         return ResponseEntity.ok("OK");
     }
-
     @GetMapping("/me")
     public ResponseEntity<User> getMe(@RequestHeader("Authorization") String authHeader) {
         String token = authHeader.replace("Bearer ", "");
-        String phone = JWtUtil.getPhoneFromToken(token);
+        String phone = JwtUtil.getPhoneFromToken(token);
         return ResponseEntity.ok(userService.findByEmail(phone));
     }
 }

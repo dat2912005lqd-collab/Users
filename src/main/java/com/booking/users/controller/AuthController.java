@@ -3,7 +3,7 @@ import com.booking.users.dto.LoginRequest;
 import com.booking.users.dto.LoginResponse;
 import com.booking.users.entity.User;
 import com.booking.users.service.UserService;
-import com.booking.users.util.JWtUtil;
+import com.booking.users.util.JwtUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +18,7 @@ public class AuthController {
     @PostMapping("/login")
     public LoginResponse login(@RequestBody LoginRequest request) {
         User user = userService.login(request.getPhoneNumber(), request.getPassword());
-        String token = JWtUtil.generateToken(user.getPhoneNumber());
+        String token = JwtUtil.generateToken(user.getPhoneNumber());
         return new LoginResponse(token, user);
 }
 }
