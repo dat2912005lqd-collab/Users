@@ -15,14 +15,22 @@ public class UserService {
         return userRepository.findAll();
     }
     public UserResponseDTO registerUser(RegisterUserRequest request) {
-        User user = new User(request.getFullname(), request.getEmail(), request.getPassword(), request.getRole());
-        userRepository.save(user);
-        UserResponseDTO response = new UserResponseDTO();
-        response.setId(String.valueOf(user.getId()));
-        response.setEmail(user.getEmail());
-        response.setFullname(user.getFullname());
-        response.setRole(user.getRole());
-        return response;
+        User user = new User();
+        user.setFullname(request.getFullname());
+        user.setEmail(request.getEmail());
+        user.setRole(request.getRole());
+        String encryptedPassword = MD5Util.encrypt(request.getPassword());
+        user.setPassword(encryptedPassword);
+        User savedUser = userRepository.save(user);
+        return toUserResponseDTO(savedUser);
+    }
+    private UserResponseDTO toUserResponseDTO(User user) {
+        return new UserResponseDTO(
+                user.getId(),
+                user.getEmail(),
+                user.getFullname(),
+                user.getRole()
+        );
     }
     public void deleteUser(Long id) {
         if (id != null) {
@@ -45,7 +53,12 @@ public class UserService {
        }
        return user;
     }
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public User findByPhoneNumber(String phoneNumber) {
+        return userRepository.findByPhoneNumber(phoneNumber);
     }
+    public UserResponseDTO registerNewUser(RegisterUserRequest request) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'registerNewUser'");
+    }
+
 }

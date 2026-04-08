@@ -1,6 +1,7 @@
 package com.booking.users.controller;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,9 +23,10 @@ import com.booking.users.util.JwtUtil;
 public class UserController {
     @Autowired
     private UserService userService;
-    @PostMapping()
+    @PostMapping("/register")
     public ResponseEntity<UserResponseDTO> registerUser(@RequestBody RegisterUserRequest request) {
-        return ResponseEntity.ok(userService.registerUser(request));
+        UserResponseDTO response = userService.registerNewUser(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
@@ -45,7 +47,8 @@ public class UserController {
     public ResponseEntity<User> getMe(@RequestHeader("Authorization") String authHeader) {
         String token = authHeader.replace("Bearer ", "");
         String phone = JwtUtil.getPhoneFromToken(token);
-        return ResponseEntity.ok(userService.findByEmail(phone));
+        return ResponseEntity.ok(userService.findByPhoneNumber(phone));
     }
+
 }
 
