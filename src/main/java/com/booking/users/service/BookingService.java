@@ -29,11 +29,14 @@ public class BookingService{
     }
     public Booking update(Long id, Booking updatedBooking) {
        Booking booking = getById(id);
+       if (booking == null) {
+           return null;
+       }
        booking.setCustomerName(updatedBooking.getCustomerName());
        booking.setPhone(updatedBooking.getPhone());
        booking.setService(updatedBooking.getService());
        booking.setBookingTime(updatedBooking.getBookingTime());
-       return bookingRespository.save(booking);
+       return bookingRepository.save(booking);
     }
     @Autowired
     private BookingMapper bookingMapper;
