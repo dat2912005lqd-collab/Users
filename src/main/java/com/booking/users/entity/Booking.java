@@ -27,6 +27,11 @@ public class Booking {
     private String Service;
     private String status;
     private LocalDateTime bookingTime;
+    private Long passengerId;
+    private String pickupLocation;
+    private String dropoffLocation;
+    private String distanceKm;
+    private String totalFare;
 public Long getId() {
     return id;
 }
@@ -62,6 +67,46 @@ public LocalDateTime getBookingTime() {
 }
 public void setBookingTime(LocalDateTime bookingTime) {
     this.bookingTime = bookingTime;
+}
+
+public Long getPassengerId() {
+    return passengerId;
+}
+
+public void setPassengerId(Long passengerId) {
+    this.passengerId = passengerId;
+}
+
+public String getPickupLocation() {
+    return pickupLocation;
+}
+
+public void setPickupLocation(String pickupLocation) {
+    this.pickupLocation = pickupLocation;
+}
+
+public String getDropoffLocation() {
+    return dropoffLocation;
+}
+
+public void setDropoffLocation(String dropoffLocation) {
+    this.dropoffLocation = dropoffLocation;
+}
+
+public String getDistanceKm() {
+    return distanceKm;
+}
+
+public void setDistanceKm(String distanceKm) {
+    this.distanceKm = distanceKm;
+}
+
+public String getTotalFare() {
+    return totalFare;
+}
+
+public void setTotalFare(String totalFare) {
+    this.totalFare = totalFare;
 }
 
 }
