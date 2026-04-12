@@ -17,9 +17,11 @@ import com.booking.users.dto.UserResponseDTO;
 import com.booking.users.entity.User;
 import com.booking.users.service.UserService;
 import com.booking.users.util.JwtUtil;
+import com.booking.users.mapper.UserMapper;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("api/users")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -32,11 +34,15 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         User user = userService.login(request.getPhoneNumber(), request.getPassword());
         String token = JwtUtil.generateToken(user.getPhoneNumber());
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(Map.of("token", token));
     }
     @GetMapping("/all")
-    public ResponseEntity<List<User>> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
+    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
+        List<UserResponseDTO> users = userService.getAllUsers()
+        .stream()
+        .map(UserMapper::toResponseDTO)
+        .toList();
+        return ResponseEntity.ok(users);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable("id") Long id) {
@@ -44,10 +50,11 @@ public class UserController {
         return ResponseEntity.ok("OK");
     }
     @GetMapping("/me")
-    public ResponseEntity<User> getMe(@RequestHeader("Authorization") String authHeader) {
+    public ResponseEntity<UserResponseDTO> getMe(@RequestHeader("Authorization") String authHeader) {
         String token = authHeader.replace("Bearer ", "");
         String phone = JwtUtil.getPhoneFromToken(token);
-        return ResponseEntity.ok(userService.findByPhoneNumber(phone));
+        User user = userService.findByPhoneNumber(phone);
+        return ResponseEntity.ok(UserMapper.toResponseDTO(user));
     }
 
 }
